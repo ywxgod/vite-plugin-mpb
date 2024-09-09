@@ -73,7 +73,7 @@ export default function mp(mpOpt:MpOptions) {
     let userConfig:Record<string, any>;
     let env: { mode:string, command:'serve'|'build' };
     const plugin = {
-        name: 'vite-plugin-mp',
+        name: 'vite-plugin-mpb',
         enforce: 'pre',
         async config(config:Record<string, any>, viteEnv: { mode:string, command:'serve'|'build' }) {
             userConfig = config;
