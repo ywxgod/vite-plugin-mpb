@@ -1,6 +1,6 @@
 # vite-plugin-mpb
 
-用于`vite`的专业插件，依赖`vite`。
+用于`vite`的专用插件，依赖`vite`。
 
 `vite`项目默认提供的多页面构建方案需要我们将页面放置到根目录中，而`vite-plugin-mpb`没有强制指定页面存放的位置。不过`vite-plugin-mpb`只会让`vite`构建指定目录下的入口`html`。
 
