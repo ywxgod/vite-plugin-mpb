@@ -19,6 +19,7 @@
     "import": "./dist/index.es.js",
     "default": "./dist/index.es.js"
   },
+  "files": ["dist"],
   "engines": {
     "node": ">=20.0.0",
     "pnpm": ">=9.9.0"
