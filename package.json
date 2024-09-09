@@ -2,7 +2,7 @@
   "name": "vite-plugin-mpb",
   "private": false,
   "description": "vite专用多页构建插件，可以指定打包的页面，指定主页等",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "type": "module",
   "main": "dist/index.es.js",
   "module": "dist/index.es.js",
