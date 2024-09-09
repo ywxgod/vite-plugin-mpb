@@ -16,7 +16,6 @@ async function getPages(options:MpOptions) {
             ignored: (p: Record<string, any>) => {
                 if (!ignores || !ignores.length) return false;
                 const relPath = normalizePath(p.relative(p.fullpath()));
-                console.log(relPath, p.relative(p.fullpath()), '-->');
                 return ignores.some(i => {
                     return relPath.includes(i);
                 });
