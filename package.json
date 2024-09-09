@@ -1,17 +1,15 @@
 {
-  "name": "vite-plugin-mp",
-  "publishConfig": {
-    "access": "public"
-  },
+  "name": "vite-plugin-mpb",
+  "private": false,
   "description": "vite专用多页构建插件，可以指定打包的页面，指定主页等",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "type": "module",
   "main": "dist/index.es.js",
   "module": "dist/index.es.js",
   "scripts": {
     "dev": "vite",
     "build:prd": "tsc && rollup -c --environment BUILD:production",
-    "build:dev": "tsc && rollup -c --environment BUILD:production",
+    "build:dev": "tsc && rollup -c --environment BUILD:development",
     "preview": "vite preview"
   },
   "exports": {
@@ -19,7 +17,9 @@
     "import": "./dist/index.es.js",
     "default": "./dist/index.es.js"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "engines": {
     "node": ">=20.0.0",
     "pnpm": ">=9.9.0"
@@ -39,6 +39,7 @@
     "rollup": "^4.21.2",
     "rollup-plugin-dts": "^6.1.1",
     "rollup-plugin-typescript2": "^0.36.0",
-    "typescript": "^5.5.3"
+    "typescript": "^5.5.3",
+    "vite": "^5.4.3"
   }
 }

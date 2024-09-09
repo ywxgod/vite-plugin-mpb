@@ -1,24 +1,23 @@
-
 import type { Rewrite } from 'connect-history-api-fallback';
 import { glob } from 'glob';
-// import {normalizePath} from 'vite';
+import { normalizePath } from 'vite';
 import path from 'node:path';
-import * as fsp from 'node:fs/promises';
+import fsp from 'node:fs/promises';
 import chalk from "chalk";
-import { MpOptions, EntryInfo } from "./types";
+import {EntryInfo, MpOptions} from "./types";
 
 const warning = chalk.hex('#FFA500');
-const normalizePath = path.normalize;
 
-async function getPages(options: MpOptions) {
+async function getPages(options:MpOptions) {
     const { scanDir, scanFile, includes, ignores } = options;
     let files:string[] = [];
     const glopOpt = {
         ignore: {
-            ignored: (p: any) => {
+            ignored: (p: Record<string, any>) => {
                 if (!ignores || !ignores.length) return false;
                 const relPath = normalizePath(p.relative(p.fullpath()));
-                return ignores.some((i:string) => {
+                console.log(relPath, p.relative(p.fullpath()), '-->');
+                return ignores.some(i => {
                     return relPath.includes(i);
                 });
             },
@@ -32,7 +31,7 @@ async function getPages(options: MpOptions) {
             files = [...await glob(`${scanDir}/${j}/**/${scanFile}`, glopOpt), ...files];
         }
     }
-    const entryInfos = files.reduce((acc:Record<string, EntryInfo>, file:string) => {
+    const entryInfos = files.reduce((acc:Record<string, EntryInfo>, file) => {
         const normalPath = normalizePath(file);
         const filePath = normalPath.replace(scanDir+'/', '');
         const basename = path.basename(file);
@@ -54,12 +53,12 @@ async function getPages(options: MpOptions) {
 }
 
 async function copyDir(target:string, dest:string, excludes:string[] = []) {
-    await fsp.access(target).catch((e:Error) => console.log(e));
+    await fsp.access(target).catch((err: Error) => console.log(err));
     await fsp.access(dest).catch(async () => {
         await fsp.mkdir(dest, { recursive: true });
     });
     const targetFiles:string[] = await fsp.readdir(target);
-    for(let i of targetFiles) {
+    for(const i of targetFiles) {
         const sourcePath = path.join(target, i);
         const destPath = path.join(dest, i);
         if (excludes.includes(i)) continue;
@@ -81,26 +80,26 @@ async function removeDir(target:string) {
     if (!exist) return Promise.resolve();
     const targetFiles = await fsp.readdir(target);
     if (!targetFiles.length) {
-        await fsp.rmdir(target).catch(e => exports.errorHandler(e));
+        await fsp.rmdir(target).catch((err: Error) => console.log(err));
     } else {
-        for(let i of targetFiles) {
+        for(const i of targetFiles) {
             const sourcePath = path.join(target, i);
             const stat = await fsp.stat(sourcePath);
             if (stat.isDirectory()) {
                 await removeDir(sourcePath);
             } else {
-                await fsp.unlink(sourcePath).catch((e:Error) => console.log(e));
+                await fsp.unlink(sourcePath).catch((err: Error) => console.log(err));
             }
         }
-        await fsp.rmdir(target).catch((e:Error) => console.log(e));
+        await fsp.rmdir(target).catch((err: Error) => console.log(err));
     }
 }
 
 async function copyFile(targetFile:string, dest:string) {
     if (!targetFile || !dest) throw new Error('路径无效');
-    let targetBaseName = path.extname(targetFile) && path.basename(targetFile);
+    const targetBaseName = path.extname(targetFile) && path.basename(targetFile);
     if (!targetBaseName) throw new Error('路径无效');
-    let destBaseName = path.extname(dest) && path.basename(dest);
+    const destBaseName = path.extname(dest) && path.basename(dest);
     if (!destBaseName) dest = path.join(dest, targetBaseName);
     await fsp.copyFile(targetFile, dest);
 }
@@ -116,7 +115,7 @@ async function hasDir(targetDir: string) {
 
 export async function move(root:string, dest:string, mpOptions: MpOptions) {
     const { scanDir, mainPage } = mpOptions;
-    if (!scanDir) throw new Error('scanDir没有配置');
+    if (!scanDir) throw new Error('scanDir非法');
     const resolve = (p: string) => path.resolve(root, p);
     const oldPath = normalizePath(resolve(`${dest}/${scanDir}`));
     const newPath = normalizePath(resolve(`${dest}`))
@@ -142,7 +141,7 @@ export async function move(root:string, dest:string, mpOptions: MpOptions) {
     }
 }
 
-export async function getReWriteList(options:MpOptions) {
+export async function getReWriteList(options: MpOptions) {
     let pages = await getPages(options);
     const { scanDir, mainPage } = options;
     const list: Rewrite[] = [];

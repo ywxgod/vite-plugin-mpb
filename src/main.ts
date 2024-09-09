@@ -1,7 +1,6 @@
 
 import { getInput, move, getReWriteList } from "./mp";
-import historyApiCallback from 'connect-history-api-fallback';
-import type { Options } from 'connect-history-api-fallback'
+import history from 'connect-history-api-fallback';
 import { MpOptions } from "./types";
 
 
@@ -60,7 +59,7 @@ mp.verInfo = {
     author: '__AUTHOR__'
 };
 
-export default function mp(mpOpt: MpOptions) {
+export default function mp(mpOpt:MpOptions) {
     const defaultMpOpt = {
         scanDir: 'src/pages',
         scanFile: 'index.{html,ts,js}',
@@ -71,31 +70,35 @@ export default function mp(mpOpt: MpOptions) {
         console.error(`scanFile: 非法`);
         process.exit(1);
     }
-    let userConfig: Record<string, any>;
+    let userConfig:Record<string, any>;
+    let env: { mode:string, command:'serve'|'build' };
     const plugin = {
         name: 'vite-plugin-mp',
         enforce: 'pre',
-        async config(config: Record<string, any>) {
+        async config(config:Record<string, any>, viteEnv: { mode:string, command:'serve'|'build' }) {
             userConfig = config;
-            const input = await getInput(options);
-            config.build = config.build || {};
-            config.build.rollupOptions = config.build.rollupOptions || {};
-            config.build.rollupOptions.input = input;
+            env = viteEnv;
+            const input = await getInput(options).catch(err => console.log(err));
+            if (input) {
+                config.build = config.build || {};
+                config.build.rollupOptions = config.build.rollupOptions || {};
+                config.build.rollupOptions.input = input;
+            }
         },
-        async configureServer(server: {middlewares: {use: Function}}) {
+        async configureServer(server: { middlewares: {use: Function} }) {
             const app = server.middlewares;
-            const historyOpt: Options = {
+            app.use(history({
                 verbose: Boolean(process.env.DEBUG) && process.env.DEBUG !== 'false',
                 disableDotRule: undefined,
                 htmlAcceptHeaders: ['text/html', 'application/xhtml+xml'],
                 rewrites: await getReWriteList(options),
-            };
-            app.use(historyApiCallback(historyOpt));
+            }));
         },
         async closeBundle() {
+            if (env && env.command !== 'build') return;
             const root = userConfig.root || process.cwd();
             const dest = (userConfig.build && userConfig.build.outDir) || 'dist';
-            await move(root, dest, options);
+            await move(root, dest, options).catch(err => console.log(err));
         }
     };
 
