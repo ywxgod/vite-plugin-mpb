@@ -22,36 +22,6 @@ import { MpOptions } from "./types";
  * 要指定上面的页面为主页，则mainPage为：page1/page2，这样访问首页：http://localhost:5173访问到的就是上面的页面。
  * 而页面：http://localhost:5173/page1/page2/index.html则不再存在。
  *
- * <b>
- * 注意：指定mainPage时，一定是要最后存在于你所打包的页面之中。
- * 配置的页面经过includes，ignores一番处理，保留下来的页面可能就没有包含mainPage了。
- * </b>
- *
- * 用法1：只想指定某些页面进行打包
- * ```
- * mp({
- *     includes: ['page1', 'page2']
- * })
- * ```
- * 用法2：全部打包
- * ```
- * mp()
- * ```
- * 用法3：全部打包的基础上，想忽略一些页面
- * ```
- * mp({
- *     ignores: ['page1', 'page2']
- * })
- * ```
- * 用法4：指定模块打包的基础上，想忽略一些页面
- * ```
- * mp({
- *     includes: ['page1', 'page2', 'page3']
- *     ignores: ['page1', 'page2']
- * })
- * ```
- * 此时只会构建page3
- *
  * */
 mp.verInfo = {
     version: '__VERSION__',

@@ -6,6 +6,15 @@
 
 `vite-plugin-mpb`默认你的所有页面存在于`src/pages`下面，就是说如果项目根目录下有入口`html`文件，将不会处理。你可以通过`scanDir`来配置指定页面目录，由于原来根目录下的首页不被处理，你可以通过`mainPage`来制定`src/pages`下面的某个页面作为主页即可。
 
+## 页面的概念：
+每个页面至少包含一个`html`文件，正常情况下还有一个`ts`或者`js`文件，用于处理页面逻辑。
+
+`vite-plugin-mpb`默认这两个文件的文件名为index。如果你的页面目录下不是`index.html`,`index.ts`或`index.js`。那么需要设置scanFile来告诉`vite-plugin-mpb`怎么找到你的入口文件。
+
+比如你的某个页面的入口文件是：`xx.html`与`xx.ts`, `scanFile`可以配置为：`'xx.{html,ts}'`。
+
+**注意**：不管你的`html`文件和`ts`文件名是啥，但这两个文件必须保持一样的名称，就是说：`xx.html`与`yy.ts`是不允许的。
+
 ## 安装
 `npm i -D vite-plugin-mpb`
 
