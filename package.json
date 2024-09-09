@@ -1,0 +1,43 @@
+{
+  "name": "vite-plugin-mp",
+  "publishConfig": {
+    "access": "public"
+  },
+  "description": "vite专用多页构建插件，可以指定打包的页面，指定主页等",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "dist/index.es.js",
+  "module": "dist/index.es.js",
+  "scripts": {
+    "dev": "vite",
+    "build:prd": "tsc && rollup -c --environment BUILD:production",
+    "build:dev": "tsc && rollup -c --environment BUILD:production",
+    "preview": "vite preview"
+  },
+  "exports": {
+    "types": "./dist/index.d.ts",
+    "import": "./dist/index.es.js",
+    "default": "./dist/index.es.js"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=9.9.0"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^26.0.1",
+    "@rollup/plugin-json": "^6.1.0",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-replace": "^5.0.7",
+    "@rollup/plugin-terser": "^0.4.4",
+    "@types/connect-history-api-fallback": "^1.5.4",
+    "@types/glob": "^8.1.0",
+    "@types/node": "^22.5.4",
+    "chalk": "^5.3.0",
+    "connect-history-api-fallback": "^2.0.0",
+    "glob": "^11.0.0",
+    "rollup": "^4.21.2",
+    "rollup-plugin-dts": "^6.1.1",
+    "rollup-plugin-typescript2": "^0.36.0",
+    "typescript": "^5.5.3"
+  }
+}
