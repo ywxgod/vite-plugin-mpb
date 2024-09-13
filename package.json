@@ -2,7 +2,7 @@
   "name": "vite-plugin-mpb",
   "private": false,
   "description": "vite专用多页构建插件，可以指定打包的页面，指定主页等",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "type": "module",
   "main": "dist/index.es.js",
   "module": "dist/index.es.js",
@@ -27,7 +27,7 @@
     "node": ">=20.0.0",
     "pnpm": ">=9.9.0"
   },
-  "devDependencies": {
+  "peerDependencies": {
     "@rollup/plugin-commonjs": "^26.0.1",
     "@rollup/plugin-json": "^6.1.0",
     "@rollup/plugin-node-resolve": "^15.2.3",
