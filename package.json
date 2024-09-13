@@ -7,7 +7,7 @@
   "main": "dist/index.es.js",
   "module": "dist/index.es.js",
   "license": "MIT",
-  "homepage": "https://gitee.com/caoos/vite-plugin-mp.git",
+  "homepage": "https://github.com/ywxgod/vite-plugin-mpb",
   "author": "ywxgod <ywxgod@gmail.com>",
   "scripts": {
     "dev": "vite",

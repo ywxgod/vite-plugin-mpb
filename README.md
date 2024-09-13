@@ -104,5 +104,5 @@ mpb({ ignores: ['main', 'page1'] })
 
 
 
-文档如果更新，最新文档请链接：
-https://www.yuque.com/jkzm/lluc6a/kv0m94p2omk303bk?singleDoc#%20%E3%80%8Avite-plugin-mpb%E3%80%8B
+实现及相关说明可以参看这里：
+https://jkzm.xyz/blog/articles/learning/Vite%E5%A4%9A%E9%A1%B5%E9%9D%A2%E6%89%93%E5%8C%85%E5%AE%9E%E7%8E%B0%E7%BB%88%E6%9E%81%E6%96%B9%E6%A1%88.html?t=5
