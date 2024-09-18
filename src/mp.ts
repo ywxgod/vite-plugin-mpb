@@ -30,7 +30,7 @@ async function getPages(options:MpOptions) {
             files = [...await glob(`${scanDir}/${j}/**/${scanFile}`, glopOpt), ...files];
         }
     }
-    const entryInfos = files.reduce((acc:Record<string, EntryInfo>, file) => {
+    let entryInfos = files.reduce((acc:Record<string, EntryInfo>, file) => {
         const normalPath = normalizePath(file);
         const filePath = normalPath.replace(scanDir+'/', '');
         const basename = path.basename(file);
@@ -48,7 +48,8 @@ async function getPages(options:MpOptions) {
     }, {});
     return Object
         .keys(entryInfos)
-        .map(key => entryInfos[key]);
+        .map(key => entryInfos[key])
+        .filter(x => !!x.entry);
 }
 
 async function copyDir(target:string, dest:string, excludes:string[] = []) {
